@@ -1,31 +1,13 @@
 services:
-  db:
-    image: postgres:15.2-alpine
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+  google-maps-scraper:
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
-      - '127.0.0.1:5432:5432'
-    expose:
-      - 5432
-    volumes: 
-      - gmapsdev:/var/lib/postgresql/data
-    restart: "unless-stopped"
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 2s
-      timeout: 30s
-      retries: 5
-  migrate:
-    image: migrate/migrate
+      - "8080:8080"
     volumes:
-      - ./scripts/migrations:/migrations
-    command: ["-path", "/migrations", "-database",  "postgres://postgres:postgres@db:5432/postgres?sslmode=disable", "up"]
-    healthcheck:
-      test: "exit 0"
-    depends_on:
-      db:
-        condition: service_healthy
+      - gmapsdata:/gmapsdata
+    command: ["-data-folder", "/gmapsdata"]
 
 volumes:
   gmapsdev:
