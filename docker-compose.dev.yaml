@@ -1,7 +1,5 @@
 services:
   google-maps-scraper:
-    ports:
-      - "7474:8080"
     build:
       context: .
       dockerfile: Dockerfile
@@ -11,3 +9,7 @@ services:
 
 volumes:
   gmapsdev:
+
+networks:
+  coolify:
+    external: true
