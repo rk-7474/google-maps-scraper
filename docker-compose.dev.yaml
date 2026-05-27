@@ -9,7 +9,3 @@ services:
 
 volumes:
   gmapsdev:
-
-networks:
-  coolify:
-    external: true
